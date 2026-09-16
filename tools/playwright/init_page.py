@@ -1,0 +1,80 @@
+"""
+Pages (helper)
+"""
+
+import allure
+from playwright.sync_api import Playwright, StorageState, ViewportSize
+from config import settings, Dir, Browser
+from tools.playwright.mocks import mock_static_resources
+
+#=======================================================================================================================
+# Page for pytest fixture (helper)
+def init_playwright_page(
+        playwright: Playwright,
+        test_name: str,
+        browser_engine: Browser,
+        storage_state: StorageState | None = None
+):
+    """
+    Page for pytest fixture (helper)
+
+    Поднимает браузер Chromium, создаёт context (со Storage state или без),
+    включает Tracing, отдаёт Page тесту, а в teardown останавливает Tracing,
+    прикрепляет trace + video к Allure и закрывает context/browser.
+
+    Используется в фикстурах через ``yield from``::
+
+        yield from init_playwright_page(
+            playwright=playwright, test_name=request.node.name, storage_state=storage_state
+        )
+
+
+    :param chromium_channel:
+    :param playwright: Playwright (встроенная фикстура из pytest_playwright)
+    :param test_name: Имя текущего теста (request.node.name) — для путей video/trace и имён вложений в Allure
+    :param browser_engine: Browser engine [chromium] / [webkit] / [firefox]
+    :param storage_state: Авторизационные данные / None → гостевой context без авторизации
+    :return: yield page: Page (на движке chromium)
+    """
+    browser = playwright[browser_engine].launch(         # Создаем объект браузера на движке [chromium], [webkit], [firefox] c параметрами:
+        headless=settings.headless,                      # - True/False — НЕ/Показывать браузер
+        slow_mo=settings.slow_mo                         # - Action delay (ms)
+    )
+    context = browser.new_context(                       # Создание браузерного окружения с Storage state:
+        base_url=settings.base_url,                      # - Base URL
+        storage_state=storage_state,            # ┐      # - Storage state из фикстуры
+        # storage_state=Dir.STORAGE_STATE_FILE, # ┘      # - Storage state из JSON-файла  (optional)
+        locale='en-US',                                  # - Website language (locale)  - (можно вынести .env)
+        viewport=ViewportSize(width=1100, height=1200),  # - Window size                - (можно вынести .env)
+        record_video_dir=f'{Dir.VIDEOS}/{test_name}'     # - Record video directory
+    )
+    context.tracing.start(                               # Tracing для Playwright Trace Viewer
+        screenshots=True,                                # - Screenshots
+        snapshots=True,                                  # - Snapshots
+        sources=True                                     # - Sources
+    )
+    page = context.new_page()                            # Создаем объект страницы page на базе context
+    mock_static_resources(page)                          # Mock - блокируем ненужные ресурсы при загрузке страницы (optional)
+
+    try:
+        yield page                                       # Передаем page (на базе движка chromium)
+
+    finally:                                             # Гарантия закрытия, если упадет
+        context.tracing.stop(
+            path=f'{Dir.TRACING}/{test_name}.zip')       # Сохраняем трейсинг в zip-файл (c именем текущего теста)
+        allure.attach.file(                              # 💾 Прикрепляем трейсинг к Allure-отчету
+            source=f'{Dir.TRACING}/{test_name}.zip',     # - File path
+            name=f'{test_name}_trace',                   # - Name in Allure-report (Tear down)
+            attachment_type=allure.attachment_type.ZIP   # - File type - ZIP
+        )
+
+        context.close()    # Закрываем context! (Playwright дописывает видео на диск)
+        browser.close()    # Закрываем browser!
+
+        allure.attach.file(                              # 💾 Прикрепляем video к Allure-отчету (файл уже финализирован)
+            source=page.video.path(),    # NOQA          # - File path (через Page)
+            name=f'{test_name}_video',                   # - Name in Allure-report (Tear down)
+            attachment_type=allure.attachment_type.WEBM  # - File type - WEBM
+        )
+
+#=======================================================================================================================

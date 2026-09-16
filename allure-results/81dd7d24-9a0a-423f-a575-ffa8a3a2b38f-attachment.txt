@@ -1,0 +1,5 @@
+[32mINFO[0m | PAGE    : ⿹ Open page URL: /
+[32mINFO[0m | ELEMENT : ✔ Check [Logo] <href> attribute is "/"
+[32mINFO[0m | ELEMENT : ✔ Check [Logo image] is visible
+[32mINFO[0m | ELEMENT : ✔ Check [Logo title] is visible
+[32mINFO[0m | ELEMENT : ✔ Check [Logo title] text is "1 MINUTE REPORT_"
