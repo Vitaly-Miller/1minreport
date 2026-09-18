@@ -1,14 +1,13 @@
 """
-Header [Navigation links]
+Home page Header [Navigation links]
 """
-
 import allure
 from playwright.sync_api import Locator
 from components.base_component import BaseComponent
 from elements.link import Link
 
 #=======================================================================================================================
-class HeaderNavLinks(BaseComponent):
+class HeaderNavLinksComponent(BaseComponent):
     """
     Header [Navigation links]
 
@@ -16,7 +15,7 @@ class HeaderNavLinks(BaseComponent):
     - "Pricing" link
     - "Who It's For" link
     """
-    PATH = 'Header'
+    PATH = 'Home page > Header'
 
     # ------------------------------------------------- ㉧ LOCATORS -----------------------------------------------------
     def how_it_works_link_locator(self) -> Locator:
@@ -63,133 +62,47 @@ class HeaderNavLinks(BaseComponent):
         self.check_who_its_for_link()
     # ────────────────────────────────────────────────┘
 
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┐
     # [How It Works link]
-    @allure.step('✔ Check [How It Works link]')
+    @allure.step('✔ Check [How It Works - link]')
     def check_how_it_works_link(self):
         """
-        ✔ Check [How It Works link]
+        ✔ Check [How It Works - link]
 
         - ✔ Link - visible
         - ✔ Link - text
         - ✔ Link - URL (href)
-        """
-        self.check_how_it_works_link_visible()
-        self.check_check_how_it_works_link_text()
-        self.check_how_it_works_link_navigates()
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┘
-    # Visible
-    def check_how_it_works_link_visible(self):
-        """
-        ✔ Check [How It Works link] is visible
-
-        .
         """
         self.how_it_works_link().check_visible()
-
-    # Text
-    def check_check_how_it_works_link_text(self):
-        """
-        ✔ Check [How It Works link] text
-
-        .
-        """
         self.how_it_works_link().check_text('How It Works', use_inner_text=True)
-
-    # Link
-    def check_how_it_works_link_navigates(self):
-        """
-        ✔ Check [How It Works link] navigates (anchor)
-
-        .
-        """
         self.how_it_works_link().check_href('#how-it-works')
 
-
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┐
     # [Pricing link]
-    @allure.step('✔ Check [Pricing link]')
+    @allure.step('✔ Check [Pricing - link]')
     def check_pricing_link(self):
         """
-        ✔ Check [Pricing link]
+        ✔ Check [Pricing - link]
 
         - ✔ Link - visible
         - ✔ Link - text
         - ✔ Link - URL (href)
-        """
-        self.check_pricing_link_visible()
-        self.check_pricing_link_text()
-        self.check_pricing_link_navigates()
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┘
-    # Visible
-    def check_pricing_link_visible(self):
-        """
-        ✔ Check [Pricing link] is visible
-
-        .
         """
         self.pricing_link().check_visible()
-
-    # Text
-    def check_pricing_link_text(self):
-        """
-        ✔ Check [Pricing link] text
-
-        .
-        """
         self.pricing_link().check_text('Pricing', use_inner_text=True)
 
-    # Link
-    def check_pricing_link_navigates(self):
-        """
-        ✔ Check [Pricing link] navigates (anchor)
-
-        .
-        """
-        self.pricing_link().check_href('#pricing')
-
-
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┐
     # [Who It's For link]
-    @allure.step("✔ Check [Who It's For link]")
+    @allure.step("✔ Check [Who It's For - link]")
     def check_who_its_for_link(self):
         """
-        ✔ Check [Who It's For link]
+        ✔ Check [Who It's For - link]
 
         - ✔ Link - visible
         - ✔ Link - text
         - ✔ Link - URL (href)
         """
-        self.check_who_its_for_link_visible()
-        self.check_who_its_for_link_text()
-        self.check_who_its_for_link_navigates()
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┘
-    # Visible
-    def check_who_its_for_link_visible(self):
-        """
-        ✔ Check [Who It's For link] is visible
-
-        .
-        """
         self.who_its_for_link().check_visible()
-
-    # Text
-    def check_who_its_for_link_text(self):
-        """
-        ✔ Check [Who It's For link] text
-
-        .
-        """
         self.who_its_for_link().check_text("Who It's For", use_inner_text=True)
-
-    # Link
-    def check_who_its_for_link_navigates(self):
-        """
-        ✔ Check [Who It's For link] navigates (anchor)
-
-        .
-        """
         self.who_its_for_link().check_href('#who-its-for')
+
 
 
 #=======================================================================================================================

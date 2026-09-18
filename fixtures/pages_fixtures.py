@@ -5,9 +5,10 @@ import pytest
 from playwright.sync_api import Page
 
 from pages.home.home_page import HomePage
+from pages.login.login_page import LoginPage
 
 #=======================================================================================================================
-#------------------------------------------- Chromium Pages (Guest Pages) ----------------------------------------------
+#------------------------------------------------- Page (Guest Pages) --------------------------------------------------
 @pytest.fixture
 def home_page(page_guest: Page) -> HomePage:
     """
@@ -18,7 +19,16 @@ def home_page(page_guest: Page) -> HomePage:
     """
     return HomePage(page_guest)
 
-#---------------------------------------- Chromium Pages (+ Storage State 📦) ------------------------------------------
+@pytest.fixture
+def login_page(page_guest: Page) -> LoginPage:
+    """
+    Фикстура инициализации LoginPage()
+
+    :param page_guest: Фикстура guest_page (NO Storage State)
+    :return: LoginPage(page=guest_page)
+    """
+    return LoginPage(page_guest)
+#---------------------------------------------- Page (+ Storage State 📦) ----------------------------------------------
 
 
 #=======================================================================================================================

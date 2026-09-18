@@ -1,47 +1,52 @@
 """
-Home page
-https://www.1minreport.com/
+Login page
+https://www.1minreport.com/login
 """
 
 import allure
-from components.home.header.header import HeaderComponent
+
+from components.login.footer import LoginPageFooterComponent
+from components.login.form import LoginFormComponent
+from components.login.header import LoginPageHeaderComponent
 from pages.base_page import BasePage
 from playwright.sync_api import Page
 from config import Endpoint
 
 #=======================================================================================================================
-class HomePage(BasePage):                      # Дочерний класс (наследует класс BasePage)
+class LoginPage(BasePage):
     """
-    [Home page]
-
     - Header (component)
+    - Form (component)
     - Footer (component)
-    - ...
-
     """
-    URL = Endpoint.HOME
-    PATH = 'Home page'                         # for logging
+    URL = Endpoint.LOGIN
+    PATH = 'Login page'
 
-    def __init__(self, page: Page):            # Конструктор класса, принимающий Page
-        super().__init__(page)                 # Передаёт page в конструктор BasePage
+    def __init__(self, page: Page):
+        super().__init__(page)
 
         # ⿳ COMPONENTS
-        self.header = HeaderComponent(page)
+        self.header = LoginPageHeaderComponent(page)
+        self.form = LoginFormComponent(page)
+        self.footer = LoginPageFooterComponent(page)
+
+
 
     # -------------------------------------------------- ✔️EXPECTATIONS ------------------------------------------------
     # [Page]
     # ──────────────────────────────────────┐
-    @allure.step('✔ Check [Home page]')
+    @allure.step('✔ Check [Login page] UI')
     def check(self):
         """
-        ✔ Check [Home page]
+        ✔ Check [Login page] UI
 
         - ✔ Header (component)
-        - ✔ ...
-        - ✔ ...
-        - ✔ ...
+        - ✔ Form (component)
+        - ✔ Footer (component)
         """
         self.header.check()
+        self.form.check()
+        self.footer.check()
     # ──────────────────────────────────────┘
 
 

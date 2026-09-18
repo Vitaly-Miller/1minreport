@@ -1,5 +1,5 @@
 """
-Header [Logo]
+Home page > Header [Logo]
 """
 import allure
 from playwright.sync_api import Locator
@@ -8,7 +8,7 @@ from elements.image import Image
 from elements.text import Text
 
 #=======================================================================================================================
-class HeaderLogo(BaseComponent):
+class HeaderLogoComponent(BaseComponent):
     """
     Header [Logo]
 
@@ -17,7 +17,8 @@ class HeaderLogo(BaseComponent):
     - Logo title
     - Logo description
     """
-    PATH = 'Header'
+    PATH = 'Home page > Header'
+
     # ------------------------------------------------- ㉧ LOCATORS -----------------------------------------------------
     def logo_locator(self) -> Locator:
         return self.page.locator('//a[@class="flex min-w-0 items-center gap-2.5 sm:gap-3"]')
@@ -47,7 +48,8 @@ class HeaderLogo(BaseComponent):
 
 
     # ------------------------------------------------ ✔️EXPECTATIONS --------------------------------------------------
-    # ───────────────────────────────┐
+    # [Header]
+    # ────────────────────────────┐
     @allure.step('✔ Check [Logo]')
     def check(self):
         """
@@ -62,20 +64,20 @@ class HeaderLogo(BaseComponent):
         self.check_image()
         self.check_title()
         self.check_description()
-    # ───────────────────────────────┘
+    # ────────────────────────────┘
 
-
-    # [Link]
-    @allure.step('✔ Check [Logo] link')
+    # [Logo link]
+    @allure.step('✔ Check [Logo link]')
     def check_logo_link(self):
         """
-        ✔ Check [Logo] link
+        ✔ Check [Logo link]
 
         .
         """
         self.logo().check_href('/')
 
-    # [Logo image]
+    # [Image]
+    @allure.step('✔ Check [Image]')
     def check_image(self):
         """
         ✔ Check [Image] is visible
@@ -84,9 +86,7 @@ class HeaderLogo(BaseComponent):
         """
         self.image().check_visible()
 
-
-    # [Logo title]
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┐
+    # [Title]
     @allure.step('✔ Check [Title]')
     def check_title(self):
         """
@@ -95,30 +95,10 @@ class HeaderLogo(BaseComponent):
         - ✔ Title - visible
         - ✔ Title - text
         """
-        self.check_title_visible()
-        self.check_title_text()
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┘
-    # Visible
-    def check_title_visible(self):
-        """
-        ✔ Check [Title] is visible
-
-        .
-        """
         self.title().check_visible()
-
-    # Text
-    def check_title_text(self):
-        """
-        ✔ Check [Title] text
-
-        .
-        """
         self.title().check_text('1 MINUTE REPORT')
 
-
-    # [Logo description]
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┐
+    # [Description]
     @allure.step('✔ Check [Description]')
     def check_description(self):
         """
@@ -127,25 +107,7 @@ class HeaderLogo(BaseComponent):
         - ✔ Description - visible
         - ✔ Description - text
         """
-        self.check_description_visible()
-        self.check_description_text()
-    # ╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴╴┘
-    # Visible
-    def check_description_visible(self):
-        """
-        ✔ Check [Description] is visible
-
-        .
-        """
         self.description().check_visible()
-
-    # Text
-    def check_description_text(self):
-        """
-        ✔ Check [Description] text
-
-        .
-        """
         self.description().check_text('Clear progress. Better communication.')
 
 
