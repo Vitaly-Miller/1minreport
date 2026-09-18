@@ -19,8 +19,9 @@ class LoginFormComponent(BaseComponent):
     - Email input field
     - Password field label
     - Password input field
-    - Login button
+    - Password input field Show-button
     - Forgot password link
+    - Login button
     - Don't have an account text
     - Sign up link
     """
@@ -35,16 +36,16 @@ class LoginFormComponent(BaseComponent):
     def email_field_label_locator(self) -> Locator:
         return self.page.get_by_text('Email')
 
-    def email_field_input_locator(self) -> Locator:
+    def email_input_field_locator(self) -> Locator:
         return self.page.get_by_role(role='textbox', name='Email')
 
     def password_field_label_locator(self) -> Locator:
         return self.page.get_by_text('Password')
 
-    def password_field_input_locator(self) -> Locator:
+    def password_input_field_locator(self) -> Locator:
         return self.page.get_by_role(role='textbox', name='Password')
 
-    def password_field_input_show_btn_locator(self) -> Locator:
+    def password_input_field_show_btn_locator(self) -> Locator:
         return self.page.get_by_role(role='button', name='Show')
 
     def forgot_password_link_locator(self) -> Locator:
@@ -62,17 +63,17 @@ class LoginFormComponent(BaseComponent):
     def email_field_label(self) -> Text:
         return Text(self.email_field_label_locator(), self.PATH, 'Email field label')
 
-    def email_field_input(self) -> InputField:
-        return InputField(self.email_field_input_locator(), self.PATH, 'Email field input')
+    def email_input_field(self) -> InputField:
+        return InputField(self.email_input_field_locator(), self.PATH, 'Email input field')
 
     def password_field_label(self) -> Text:
         return Text(self.password_field_label_locator(), self.PATH, 'Password field label')
 
-    def password_field_input(self) -> InputField:
-        return InputField(self.password_field_input_locator(), self.PATH, 'Password field input')
+    def password_input_field(self) -> InputField:
+        return InputField(self.password_input_field_locator(), self.PATH, 'Password input field')
 
-    def password_field_input_show_btn(self) -> Button:
-        return Button(self.password_field_input_show_btn_locator(), self.PATH, 'Password field input Show-button')
+    def password_input_field_show_btn(self) -> Button:
+        return Button(self.password_input_field_show_btn_locator(), self.PATH, 'Password input field Show-button')
 
     def forgot_password_link(self) -> Link:
         return Link(self.forgot_password_link_locator(), self.PATH, 'Forgot password? link')
@@ -100,10 +101,10 @@ class LoginFormComponent(BaseComponent):
         self.check_google_auth_btn()
         self.check_or_separator()
         self.check_email_field_label()
-        self.check_email_field_input()
+        self.check_email_input_field()
         self.check_password_field_label()
-        self.check_password_field_input()
-        self.check_password_field_input_show_btn()
+        self.check_password_input_field()
+        self.check_password_input_field_show_btn()
         self.check_forgot_password_link()
 
     # ───────────────────────────────────┘
@@ -134,6 +135,7 @@ class LoginFormComponent(BaseComponent):
         self.or_separator().check_visible()
         self.or_separator().check_text('or')
 
+
     # [Email field label]
     @allure.step('✔ Check [Email field label]')
     def check_email_field_label(self):
@@ -146,11 +148,11 @@ class LoginFormComponent(BaseComponent):
         self.email_field_label().check_visible()
         self.email_field_label().check_text('Email')
 
-    # [Email field input]
-    @allure.step('✔ Check [Email field input]')
-    def check_email_field_input(self, value: str = ''):
+    # [Email input field]
+    @allure.step('✔ Check [Email input field]')
+    def check_email_input_field(self, value: str = ''):
         """
-        ✔ Check [Email field input]
+        ✔ Check [Email input field]
 
         - Input field - visible
         - Input field - placeholder
@@ -158,9 +160,10 @@ class LoginFormComponent(BaseComponent):
 
         :param value: Field value (empty by default)
         """
-        self.email_field_input().check_visible()
-        self.email_field_input().check_placeholder('you@example.com')
-        self.email_field_input().check_value(value)
+        self.email_input_field().check_visible()
+        self.email_input_field().check_placeholder('you@example.com')
+        self.email_input_field().check_value(value)
+
 
     # [Password field label]
     @allure.step('✔ Check [Password field label]')
@@ -174,11 +177,11 @@ class LoginFormComponent(BaseComponent):
         self.password_field_label().check_visible()
         self.password_field_label().check_text('Password')
 
-    # [Password field input]
-    @allure.step('✔ Check [Password field input]')
-    def check_password_field_input(self, value: str = ''):
+    # [Password input field]
+    @allure.step('✔ Check [Password input field]')
+    def check_password_input_field(self, value: str = ''):
         """
-        ✔ Check [Email field input]
+        ✔ Check [Email input field]
 
         - Input field - visible
         - Input field - placeholder
@@ -186,21 +189,21 @@ class LoginFormComponent(BaseComponent):
 
         :param value: Field value (empty by default)
         """
-        self.password_field_input().check_visible()
-        self.password_field_input().check_placeholder('Enter your password')
-        self.password_field_input().check_value(value)
+        self.password_input_field().check_visible()
+        self.password_input_field().check_placeholder('Enter your password')
+        self.password_input_field().check_value(value)
 
-    # [Password field input Show-button]
-    @allure.step('✔ Check [Password field label]')
-    def check_password_field_input_show_btn(self):
+    # [Password input field Show-button]
+    @allure.step('✔ Check [Password input field Show-button]')
+    def check_password_input_field_show_btn(self):
         """
-        ✔ Check [Password field input Show-button]
+        ✔ Check [Password input field Show-button]
 
         - Text - visible
         - Text - text
         """
-        self.password_field_input_show_btn().check_visible()
-        self.password_field_input_show_btn().check_text('Show')
+        self.password_input_field_show_btn().check_visible()
+        self.password_input_field_show_btn().check_text('Show')
 
     # [Forgot password link]
     def check_forgot_password_link(self):
