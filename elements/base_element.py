@@ -48,6 +48,19 @@ class BaseElement:
             self.logger.info(step)
             self.locator.nth(nth).click()
 
+    # Hover
+    def hover(self, nth: int = 0):
+        """
+        ▶ Hover [Element]
+
+        :param nth: nth-index of locator
+        """
+        nth_info = self._nth_info(nth)
+        step = f'▶ Hover {self.name}{nth_info}'
+        with allure.step(step):
+            self.logger.info(step)
+            self.locator.nth(nth).hover()
+
     # ------------------------------------------------- ✔️EXPECTATIONS -------------------------------------------------
     # Visible
     def check_visible(self, nth: int = 0):
@@ -108,6 +121,22 @@ class BaseElement:
         with allure.step(step):
             self.logger.info(step)
             expect(self.locator.nth(nth), error).to_have_attribute('href', href)
+
+    # CSS style
+    def check_css(self, css: str, value: str, nth: int = 0):
+        """
+        ✔ Check [CSS style]
+
+        :param css: CSS style
+        :param value: CSS value
+        :param nth: nth-index of locator
+        """
+        nth_info = self._nth_info(nth)
+        step = f'✔ Check {self.name}{nth_info} CSS style "{css}" is "{value}"'
+        error = f'{self.error}{nth_info} - incorrect CSS style "{css}"!'
+        with allure.step(step):
+            self.logger.info(step)
+            expect(self.locator.nth(nth), error).to_have_css(css, value)
 
 
 #=======================================================================================================================

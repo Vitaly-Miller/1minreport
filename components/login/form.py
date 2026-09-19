@@ -45,8 +45,11 @@ class LoginFormComponent(BaseComponent):
     def password_input_field_locator(self) -> Locator:
         return self.page.get_by_role(role='textbox', name='Password')
 
-    def password_input_field_show_btn_locator(self) -> Locator:
+    def password_show_btn_locator(self) -> Locator:
         return self.page.get_by_role(role='button', name='Show')
+
+    def password_hide_btn_locator(self) -> Locator:
+        return self.page.get_by_role(role='button', name='Hide')
 
     def forgot_password_link_locator(self) -> Locator:
         return self.page.get_by_role(role='link', name='Forgot password')
@@ -81,7 +84,10 @@ class LoginFormComponent(BaseComponent):
         return InputField(self.password_input_field_locator(), self.PATH, 'Password input field')
 
     def password_show_btn(self) -> Button:
-        return Button(self.password_input_field_show_btn_locator(), self.PATH, 'Password show button')
+        return Button(self.password_show_btn_locator(), self.PATH, 'Password show button')
+
+    def password_hide_btn(self) -> Button:
+        return Button(self.password_hide_btn_locator(), self.PATH, 'Password hide button')
 
     def forgot_password_link(self) -> Link:
         return Link(self.forgot_password_link_locator(), self.PATH, 'Forgot password? link')
@@ -129,6 +135,16 @@ class LoginFormComponent(BaseComponent):
         """
         self.google_auth_btn().click()
 
+
+    # Hover [Password show button]
+    def hover_password_show_button(self):
+        """
+        ▶ Hover [Password show button]
+
+        .
+        """
+        self.password_show_btn().hover()
+
     # Click [Password show button]
     def click_password_show_button(self):
         """
@@ -137,6 +153,26 @@ class LoginFormComponent(BaseComponent):
         .
         """
         self.password_show_btn().click()
+
+
+    # Hover [Password hide button]
+    def hover_password_hide_button(self):
+        """
+        ▶ Hover [Password hide button]
+
+        .
+        """
+        self.password_hide_btn().hover()
+
+    # Click [Password hide button]
+    def click_password_hide_button(self):
+        """
+        ▶ Click [Password hide button]
+
+        .
+        """
+        self.password_hide_btn().click()
+
 
     # Click [Login button]
     def click_login_btn(self):
@@ -281,9 +317,30 @@ class LoginFormComponent(BaseComponent):
 
         - ✔ Show-button - visible
         - ✔ Show-button - text
+        - ▶ Show-button - hover
+        - ✔ Show-button - CSS style (hover color)
         """
         self.password_show_btn().check_visible()
         self.password_show_btn().check_text('Show')
+        self.hover_password_show_button()
+        self.password_show_btn().check_css('color', 'rgb(255, 255, 255)')  # ⚠️TODO(DEV): "Show/Hide Password" button turns white on hover and blends into the background - low contrast.
+
+
+    # [Password hide button] (⚠ not in suite)
+    @allure.step('✔ Check [Password hide button]')
+    def check_password_hide_btn(self):
+        """
+        ✔ Check [Password hide button]
+
+        - ✔ Hide-button - visible
+        - ✔ Hide-button - text
+        - ▶ Hide-button - hover
+        - ✔ Hide-button - CSS style (hover color)
+        """
+        self.password_hide_btn().check_visible()
+        self.password_hide_btn().check_text('Hide')
+        self.hover_password_hide_button()
+        self.password_hide_btn().check_css('color', 'rgb(255, 255, 255)')  # ⚠️TODO(DEV): See [Password show button] comment
 
     # [Forgot password link]
     @allure.step('✔ Check [Forgot password link]')
