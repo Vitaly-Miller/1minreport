@@ -1,9 +1,8 @@
 """
-Login form
+Login form (component)
 """
 import allure
 from playwright.sync_api import Locator
-
 from components.base_component import BaseComponent
 from elements.button import Button
 from elements.input_field import InputField
@@ -19,13 +18,14 @@ class LoginFormComponent(BaseComponent):
     - Email input field
     - Password field label
     - Password input field
-    - Password input field Show-button
+    - Password show button
     - Forgot password link
     - Login button
     - Don't have an account text
     - Sign up link
     """
     PATH = 'Login page > Form'
+
     # --------------------------------------------------- ㉧ LOCATORS ---------------------------------------------------
     def google_auth_btn_locator(self) -> Locator:
         return self.page.get_by_role(role='button', name='Continue with Google')
@@ -51,6 +51,14 @@ class LoginFormComponent(BaseComponent):
     def forgot_password_link_locator(self) -> Locator:
         return self.page.get_by_role(role='link', name='Forgot password')
 
+    def login_btn_locator(self) -> Locator:
+        return self.page.locator('button[type="submit"]')
+
+    def do_not_have_an_account_locator(self) -> Locator:
+        return self.page.locator("div[class='mt-5 text-center text-sm text-slate-400 sm:mt-6']")
+
+    def sign_up_link_locator(self) -> Locator:
+        return self.page.get_by_role(role='link', name='Sign Up')
 
 
     # --------------------------------------------------- ◈ ELEMENTS ---------------------------------------------------
@@ -72,16 +80,86 @@ class LoginFormComponent(BaseComponent):
     def password_input_field(self) -> InputField:
         return InputField(self.password_input_field_locator(), self.PATH, 'Password input field')
 
-    def password_input_field_show_btn(self) -> Button:
-        return Button(self.password_input_field_show_btn_locator(), self.PATH, 'Password input field Show-button')
+    def password_show_btn(self) -> Button:
+        return Button(self.password_input_field_show_btn_locator(), self.PATH, 'Password show button')
 
     def forgot_password_link(self) -> Link:
         return Link(self.forgot_password_link_locator(), self.PATH, 'Forgot password? link')
 
+    def login_btn(self) -> Button:
+        return Button(self.login_btn_locator(), self.PATH, 'Login button')
+
+    def do_not_have_an_account(self) -> Text:
+        return Text(self.do_not_have_an_account_locator(), self.PATH, "Don't have an account? Sing Up")
+
+    def sign_up_link(self) -> Link:
+        return Link(self.sign_up_link_locator(), self.PATH, 'Sign Up link')
+
+    # --------------------------------------------------- ▶ ACTIONS ----------------------------------------------------
+    # Fill [Login form]
+    @allure.step('▶ Fill [Login form]')
+    def fill(self, email: str = '', password: str = ''):
+        """
+        ▶ Fill [Login form]
+
+        - Email field - ▶ fill | ✔ value
+        - Password field - ▶ fill | ✔ value
+
+        :param email: Email (option)
+        :param password: Password (option)
+        """
+        self.email_input_field().fill(email)
+        self.password_input_field().fill(password)
+
+    # Click [Forgot password link]
+    def click_forgot_password_link(self):
+        """
+        ▶ Click [Forgot password link]
+
+        .
+        """
+        self.forgot_password_link().click()
+
+    # Click [Google auth button]
+    def click_google_auth_btn(self):
+        """
+        ▶ Click [Google auth button]
+
+        .
+        """
+        self.google_auth_btn().click()
+
+    # Click [Password show button]
+    def click_password_show_button(self):
+        """
+        ▶ Click [Password show button]
+
+        .
+        """
+        self.password_show_btn().click()
+
+    # Click [Login button]
+    def click_login_btn(self):
+        """
+        ▶ Click [Login button]
+
+        .
+        """
+        self.login_btn().click()
+
+    # Click [Sign Up link]
+    def click_sign_up_link(self):
+        """
+        ▶ Click [Sign Up link]
+
+        .
+        """
+        self.sign_up_link().click()
+
 
     # ------------------------------------------------- ✔️EXPECTATIONS -------------------------------------------------
     # [Login form]
-    # ──────────────────────────────────┐
+    # ─────────────────────────────────────────────┐
     @allure.step('✔ Check [Login form]')
     def check(self):
         """
@@ -93,10 +171,11 @@ class LoginFormComponent(BaseComponent):
         - ✔ Email field input
         - ✔ Password field label
         - ✔ Password field input
-        - ✔ Password field input Show-button
+        - ✔ Password show button
         - ✔ Forgot password? link
-        - ✔
-        - ✔
+        - ✔ Login button
+        - ✔ Don't have an account?
+        - ✔ Sign up link
         """
         self.check_google_auth_btn()
         self.check_or_separator()
@@ -104,10 +183,11 @@ class LoginFormComponent(BaseComponent):
         self.check_email_input_field()
         self.check_password_field_label()
         self.check_password_input_field()
-        self.check_password_input_field_show_btn()
+        self.check_password_show_btn()
         self.check_forgot_password_link()
-
-    # ───────────────────────────────────┘
+        self.check_login_btn()
+        self.check_do_not_have_an_account_sign_up()
+    # ─────────────────────────────────────────────┘
 
     # [Google auth button]
     @allure.step('✔ Check [Google auth button]')
@@ -115,9 +195,9 @@ class LoginFormComponent(BaseComponent):
         """
         ✔ Check [Google auth button]
 
-        - Button - visible
-        - Button - enable
-        - Button - text
+        - ✔ Button - visible
+        - ✔ Button - enable
+        - ✔ Button - text
         """
         self.google_auth_btn().check_visible()
         self.google_auth_btn().check_enabled()
@@ -129,11 +209,11 @@ class LoginFormComponent(BaseComponent):
         """
         ✔ Check [OR-separator]
 
-        - Text - visible
-        - Text - text
+        - ✔ Text - visible
+        - ✔ Text - text
         """
         self.or_separator().check_visible()
-        self.or_separator().check_text('or')
+        self.or_separator().check_text('OR', use_inner_text=True)
 
 
     # [Email field label]
@@ -142,8 +222,8 @@ class LoginFormComponent(BaseComponent):
         """
         ✔ Check [Email field label]
 
-        - Text - visible
-        - Text - text
+        - ✔ Text - visible
+        - ✔ Text - text
         """
         self.email_field_label().check_visible()
         self.email_field_label().check_text('Email')
@@ -154,9 +234,9 @@ class LoginFormComponent(BaseComponent):
         """
         ✔ Check [Email input field]
 
-        - Input field - visible
-        - Input field - placeholder
-        - Input field - value (empty by default)
+        - ✔ Input field - visible
+        - ✔ Input field - placeholder
+        - ✔ Input field - value (empty by default)
 
         :param value: Field value (empty by default)
         """
@@ -171,8 +251,8 @@ class LoginFormComponent(BaseComponent):
         """
         ✔ Check [Password field label]
 
-        - Text - visible
-        - Text - text
+        - ✔ Text - visible
+        - ✔ Text - text
         """
         self.password_field_label().check_visible()
         self.password_field_label().check_text('Password')
@@ -183,9 +263,9 @@ class LoginFormComponent(BaseComponent):
         """
         ✔ Check [Email input field]
 
-        - Input field - visible
-        - Input field - placeholder
-        - Input field - value (empty by default)
+        - ✔ Input field - visible
+        - ✔ Input field - placeholder
+        - ✔ Input field - value (empty by default)
 
         :param value: Field value (empty by default)
         """
@@ -193,29 +273,61 @@ class LoginFormComponent(BaseComponent):
         self.password_input_field().check_placeholder('Enter your password')
         self.password_input_field().check_value(value)
 
-    # [Password input field Show-button]
-    @allure.step('✔ Check [Password input field Show-button]')
-    def check_password_input_field_show_btn(self):
+    # [Password show button]
+    @allure.step('✔ Check [Password show button]')
+    def check_password_show_btn(self):
         """
-        ✔ Check [Password input field Show-button]
+        ✔ Check [Password show button]
 
-        - Text - visible
-        - Text - text
+        - ✔ Show-button - visible
+        - ✔ Show-button - text
         """
-        self.password_input_field_show_btn().check_visible()
-        self.password_input_field_show_btn().check_text('Show')
+        self.password_show_btn().check_visible()
+        self.password_show_btn().check_text('Show')
 
     # [Forgot password link]
+    @allure.step('✔ Check [Forgot password link]')
     def check_forgot_password_link(self):
         """
         ✔ Check [Forgot password link]
 
-        - Link - visible
-        - Link - text
-        - Link - URL (href)
+        - ✔ Link - visible
+        - ✔ Link - text
+        - ✔ Link - URL (href)
         """
         self.forgot_password_link().check_visible()
         self.forgot_password_link().check_text('Forgot password?')
         self.forgot_password_link().check_href('/forgot-password')
+
+
+    # [Login button]
+    @allure.step('✔ Check [Login button]')
+    def check_login_btn(self):
+        """
+        ✔ Check [Login button]
+
+        - ✔ Button - visible
+        - ✔ Button - enabled
+        - ✔ Button - text
+        """
+        self.login_btn().check_visible()
+        self.login_btn().check_enabled()
+        self.login_btn().check_text('Log In')
+
+
+    # [Don't have an account? Sing Up]
+    @allure.step("✔ Check [Don't have an account? Sing Up]")
+    def check_do_not_have_an_account_sign_up(self):
+        """
+        ✔ Check [Don't have an account? Sing Up]
+
+        - ✔ Text - visible
+        - ✔ Text - text
+        - ✔ Sing Up - link
+        """
+        self.do_not_have_an_account().check_visible()
+        self.do_not_have_an_account().check_text("Don't have an account? Sign Up")
+        self.sign_up_link().check_href('/signup')
+
 
 #=======================================================================================================================

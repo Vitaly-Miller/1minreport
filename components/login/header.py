@@ -1,5 +1,5 @@
 """
-Login page header
+Login page header (component)
 """
 
 import allure

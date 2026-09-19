@@ -2,9 +2,7 @@
 Login page
 https://www.1minreport.com/login
 """
-
 import allure
-
 from components.login.footer import LoginPageFooterComponent
 from components.login.form import LoginFormComponent
 from components.login.header import LoginPageHeaderComponent
@@ -29,8 +27,6 @@ class LoginPage(BasePage):
         self.header = LoginPageHeaderComponent(page)
         self.form = LoginFormComponent(page)
         self.footer = LoginPageFooterComponent(page)
-
-
 
     # -------------------------------------------------- ✔️EXPECTATIONS ------------------------------------------------
     # [Page]

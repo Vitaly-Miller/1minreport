@@ -1,5 +1,5 @@
 """
-Login page footer
+Login page footer (component)
 """
 import allure
 from components.base_component import BaseComponent
@@ -43,8 +43,8 @@ class LoginPageFooterComponent(BaseComponent):
         """
         ✔ Check [Slogan]
 
-        - Slogan - visible
-        - Slogan - text
+        - ✔ Slogan - visible
+        - ✔ Slogan - text
         """
         self.slogan().check_visible()
         self.slogan().check_text('Built for the people who make a difference.')

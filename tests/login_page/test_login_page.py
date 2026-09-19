@@ -19,7 +19,7 @@ class TestLoginPage:
         # ⿹ Open page
         login_page.open(login_page.URL)
         # ✔️EXPECTATIONS
-        login_page.check()             # Test suite
+        login_page.check()             # Test suite (55 sub-steps)
 
 
 #=======================================================================================================================
